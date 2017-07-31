@@ -98,3 +98,28 @@ $wgGroupPermissions['editorial-board'] = array('createpage'=>1, 'createtalk'=>1,
         'edit-ontology-text'=>1, 'edit-ontology-semantics'=>1,
         'edit-core-ontology'=>1, 'editpolicy'=>1);
 ```
+
+** Use PHP version 7.0.  Use different instances of MySQL if you plan to maintain different versions of MediaWiki. 
+
+6) In step 5 of instruction, comment - require_once( "$IP/extensions/WorkflowTasks/WorkflowTasks.php" );
+
+7) Log into the wiki as Admin and click on the "Initialise or upgrade tables" button under Special:SemanticMediaWiki -> Administrative Functions page
+
+8) Uncomment -> require_once( "$IP/extensions/WorkflowTasks/WorkflowTasks.php" );
+
+
+9) Login as Admin and Load ontologies, from Special:WTBootstrapLE page using the link http://linked.earth/ontology
+
+** Solving timeout error while loading ontologies, Make following changes–
+In php.ini -
+post_max_size = 750M
+upload_max_filesize = 750M
+max_execution_time = 0
+max_input_time = 5000
+memory_limit = 1000M
+
+Add below code to phpmyadmin/config.inc.php - 
+$cfg['ExecTimeLimit'] = 6000; 
+
+Add below code on 1st line of file .\mediawiki-1.28.2\includes\libs\rdbms\database\ DatabaseMysqli.php -
+ini_set('max_execution_time', 0);
